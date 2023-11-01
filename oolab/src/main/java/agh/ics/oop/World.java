@@ -1,17 +1,36 @@
 package agh.ics.oop;
 //import agh.ics.oop.OptionsParser;
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.MapDirection;
+
+import java.util.Map;
 
 public class World {
 
     public static void main(String[] args) {
-        System.out.println("system wystartował");
 
-        MoveDirection[] run_arr;
-        run_arr = OptionsParser.parse(args);
+        // LAB 1
 
-        run(run_arr);
-        System.out.println("system zakończył działanie");
+//        System.out.println("system wystartował");
+//
+//        MoveDirection[] run_arr;
+//        run_arr = OptionsParser.parse(args);
+//
+//        run(run_arr);
+//        System.out.println("system zakończył działanie");
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        System.out.println(MapDirection.toUnitVector(MapDirection.NORTH));
+        System.out.println(MapDirection.toUnitVector(MapDirection.SOUTH));
+        System.out.println(MapDirection.toUnitVector(MapDirection.WEST));
+        System.out.println(MapDirection.toUnitVector(MapDirection.EAST));
+
     }
 
     public static void run(MoveDirection[] run_arr) {
