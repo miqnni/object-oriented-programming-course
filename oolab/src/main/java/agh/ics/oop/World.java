@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.RectangularMap;
 import agh.ics.oop.model.Vector2d;
 
@@ -9,23 +10,12 @@ import java.util.List;
 public class World {
 
     public static void main(String[] args) {
-
+        List<MoveDirection> directions = OptionsParser.parse(args);
+        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+        RectangularMap simMap = new RectangularMap(5, 5);
+        Simulation simulation = new Simulation(positions, directions, simMap);
+        simulation.run();
         // LAB 4
-        RectangularMap testMap1 = new RectangularMap(5, 5);
-
-        List<Vector2d> startPos = List.of(
-                new Vector2d(2,2),
-                new Vector2d(0,0),
-                new Vector2d(4,4),
-                new Vector2d(3,1)
-        );
-        String[] moves1 = {
-                "f", "f", "f", "f",
-                "r", "r", "r", "r",
-                "b", "b", "b", "b"
-        };
-        Simulation testSim = new Simulation(startPos, OptionsParser.parse(moves1), testMap1);
-        testSim.run();
     }
 
 //    public static void run(MoveDirection[] run_arr) {

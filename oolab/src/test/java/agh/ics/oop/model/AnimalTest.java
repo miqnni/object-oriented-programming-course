@@ -139,7 +139,6 @@ class AnimalTest {
                 testAnimal.move(d, testMap);
             }
             assertEquals(testOutLoc[i], testAnimal.getLocation());
-//            assertTrue(testAnimal.isAt(testOutLoc[i]));
             assertEquals(testOutOri[i], testAnimal.getOrientation());
         }
 

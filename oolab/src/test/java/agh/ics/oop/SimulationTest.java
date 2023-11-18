@@ -80,9 +80,9 @@ class SimulationTest {
                 new Vector2d(2,2)
         );
         List<Vector2d> endPos2 = List.of(
-                new Vector2d(2,2),
-                new Vector2d(2,2),
-                new Vector2d(2,2),
+                new Vector2d(1,2),
+                new Vector2d(0,2),
+                new Vector2d(2,3),
                 new Vector2d(2,2)
         );
         List<Vector2d> endPos3 = List.of(
@@ -92,8 +92,8 @@ class SimulationTest {
                 new Vector2d(2,2)
         );
         List<Vector2d> endPos4 = List.of(
-                new Vector2d(0,2),
-                new Vector2d(3,3),
+                new Vector2d(1,1),
+                new Vector2d(1,3),
                 new Vector2d(4,0),
                 new Vector2d(1,4)
         );
