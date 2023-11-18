@@ -1,29 +1,24 @@
 package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class OptionsParser {
-    public static MoveDirection[] parse(String[] sarr) {
-        MoveDirection[] mdarr;
+    public static List<MoveDirection> parse(String[] sarr) {
 
-        int new_len = 0;
+        List<MoveDirection> mdList = new LinkedList<>();
 
-        for (String s: sarr) {
-            if (s.equals("f") || s.equals("r") || s.equals("b") || s.equals("l")) new_len++;
-        }
-
-        mdarr = new MoveDirection [new_len];
-
-        int i = 0;
         for (String s: sarr) {
             switch (s) {
-                case "f" -> mdarr[i] = MoveDirection.FORWARD;
-                case "r" -> mdarr[i] = MoveDirection.RIGHT;
-                case "b" -> mdarr[i] = MoveDirection.BACKWARD;
-                case "l" -> mdarr[i] = MoveDirection.LEFT;
-                default -> i--;
+                case "f" -> mdList.add(MoveDirection.FORWARD);
+                case "r" -> mdList.add(MoveDirection.RIGHT);
+                case "b" -> mdList.add(MoveDirection.BACKWARD);
+                case "l" -> mdList.add(MoveDirection.LEFT);
             }
-            i++;
         }
-        return mdarr;
+        return mdList;
     }
 }

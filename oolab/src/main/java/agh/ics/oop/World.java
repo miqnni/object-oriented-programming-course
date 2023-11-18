@@ -1,54 +1,32 @@
 package agh.ics.oop;
-//import agh.ics.oop.OptionsParser;
+
 import agh.ics.oop.model.MoveDirection;
+import agh.ics.oop.model.RectangularMap;
+import agh.ics.oop.model.Vector2d;
+
+import java.util.List;
+
 
 public class World {
 
     public static void main(String[] args) {
-        System.out.println("system wystartował");
-
-        MoveDirection[] run_arr;
-        run_arr = OptionsParser.parse(args);
-
-        run(run_arr);
-        System.out.println("system zakończył działanie");
+        List<MoveDirection> directions = OptionsParser.parse(args);
+        List<Vector2d> positions = List.of(new Vector2d(2,2), new Vector2d(3,4));
+        RectangularMap simMap = new RectangularMap(5, 5);
+        Simulation simulation = new Simulation(positions, directions, simMap);
+        simulation.run();
+        // LAB 4
     }
 
-    public static void run(MoveDirection[] run_arr) {
-
-        // pierwsza wersja
-//        System.out.println("zwierzak idzie do przodu");
-//        for (int i = 0; i < tab.length - 1; i++) {
-//            System.out.print(tab[i] + ", ");
-//        }
-//        if (tab.length > 0) {
-//            System.out.println(tab[tab.length - 1]);
-//        }
-
-//        for (String s: tab) {
-//            String msg = switch (s) {
-//                case "f" -> "Zwierzak idzie do przodu";
-//                case "r" -> "Zwierzak idzie w prawo";
-//                case "b" -> "Zwierzak idzie do tyłu";
-//                case "l" -> "Zwierzak idzie w lewo";
-//                default -> "Nieznana komenda";
+//    public static void run(MoveDirection[] run_arr) {
+//        for (MoveDirection d: run_arr) {
+//            String msg = switch (d) {
+//                case FORWARD -> "Zwierzak idzie do przodu";
+//                case RIGHT -> "Zwierzak idzie w prawo";
+//                case BACKWARD -> "Zwierzak idzie do tyłu";
+//                case LEFT -> "Zwierzak idzie w lewo";
 //            };
 //            System.out.println(msg);
 //        }
-
-
-
-        for (MoveDirection d: run_arr) {
-            String msg = switch (d) {
-                case FORWARD -> "Zwierzak idzie do przodu";
-                case RIGHT -> "Zwierzak idzie w prawo";
-                case BACKWARD -> "Zwierzak idzie do tyłu";
-                case LEFT -> "Zwierzak idzie w lewo";
-//                default -> "Nieznana komenda";
-            };
-            System.out.println(msg);
-        }
-
-
-    }
+//    }
 }
