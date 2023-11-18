@@ -1,7 +1,9 @@
 package agh.ics.oop;
+
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +13,9 @@ public class Simulation {
     private final List<MoveDirection> directions;
     private final List<Animal> animals;
 
-    public Simulation(List<Vector2d> positions, List<MoveDirection> directions) {
+    private final WorldMap animalMap;
+
+    public Simulation(List<Vector2d> positions, List<MoveDirection> directions, WorldMap animalMap) {
         List<Animal> animals = new ArrayList<>(positions.size());
         for (Vector2d position : positions) {
             animals.add(new Animal(position));
@@ -19,23 +23,26 @@ public class Simulation {
 
         this.animals = animals;
         this.directions = directions;
+        this.animalMap = animalMap;
+
     }
 
-    // f f f b l r l l r b f l (size: 12)
-    // a0 a1 a2 (size: 3)
-    // a0 -> f b l b
-    // a1 -> f l l f
-    // a2 -> f r r l
-
     public void run() {
+        // place the animals
+        for (Animal animal : animals) {
+            animalMap.place(animal);
+        }
+
+        // move the animals
         for (int i = 0; i < directions.size(); i++) {
             int animalNum = i % animals.size();
             MoveDirection currentDir = directions.get(i);
             Animal currentAnimal = animals.get(animalNum);
 
-            currentAnimal.move(currentDir);
+            animalMap.move(currentAnimal, currentDir);
 
-            System.out.println("Zwierzę " + animalNum + " : " + currentAnimal.getLocation().toString());
+//            System.out.println("Zwierzę " + animalNum + " : " + currentAnimal.getLocation().toString());
+            System.out.println(animalMap);
 
         }
     }

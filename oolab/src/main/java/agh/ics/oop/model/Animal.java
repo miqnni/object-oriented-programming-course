@@ -25,7 +25,13 @@ public class Animal {
     }
 
     public String toString() {
-        return location.toString() + " " + orientation.toString();
+//        return location.toString() + " " + orientation.toString();
+        return switch(orientation) {
+            case NORTH -> "^";
+            case EAST -> ">";
+            case SOUTH -> "v";
+            case WEST -> "<";
+        };
     }
 
     public boolean isAt(Vector2d position) {
@@ -47,7 +53,7 @@ public class Animal {
                 && locationToCheck.getY() <= MAX_Y);
     }
 
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator mValid) {
         switch (direction) {
             case RIGHT -> orientation = MapDirection.next(orientation);
             case LEFT -> orientation = MapDirection.previous(orientation);
@@ -59,7 +65,10 @@ public class Animal {
                 }
 
                 Vector2d newLocation = location.add(toAdd);
-                if (validateLocation(newLocation)) {
+//                if (validateLocation(newLocation)) {
+//                    location = newLocation;
+//                }
+                if (mValid.canMoveTo(newLocation)) {
                     location = newLocation;
                 }
             }

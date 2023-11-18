@@ -1,19 +1,13 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class AnimalTest {
 
@@ -22,9 +16,10 @@ class AnimalTest {
 
         // No move; isAt; simple moves
         Animal a0 = new Animal();
+        RectangularMap m0 = new RectangularMap(5, 5);
 
-        assertEquals(new Vector2d (2, 2), a0.getLocation());
-        assertTrue(a0.isAt(new Vector2d (2,2)));
+        assertEquals(new Vector2d(2, 2), a0.getLocation());
+        assertTrue(a0.isAt(new Vector2d(2, 2)));
         assertEquals(MapDirection.NORTH, a0.getOrientation());
 
         List<MoveDirection> dir0 = new ArrayList<>();
@@ -33,41 +28,41 @@ class AnimalTest {
         dir0.add(MoveDirection.BACKWARD);
 
         for (MoveDirection d : dir0) {
-            a0.move(d);
+            a0.move(d, m0);
         }
 
-        assertTrue(a0.isAt(new Vector2d (1,3)));
+        assertTrue(a0.isAt(new Vector2d(1, 3)));
         assertEquals(MapDirection.EAST, a0.getOrientation());
 
 
         // A full set of tests
         int testCount = 16;
-        Vector2d[] testInLoc = new Vector2d[] {
+        Vector2d[] testInLoc = new Vector2d[]{
                 // basic moves
-                new Vector2d(2,2),
-                new Vector2d(2,2),
-                new Vector2d(2,2),
-                new Vector2d(2,2),
+                new Vector2d(2, 2),
+                new Vector2d(2, 2),
+                new Vector2d(2, 2),
+                new Vector2d(2, 2),
 
                 // not leaving the map v1
-                new Vector2d(4,4),
-                new Vector2d(4,4),
-                new Vector2d(4,4),
-                new Vector2d(4,4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
 
                 // not leaving the map v2
-                new Vector2d(0,0),
-                new Vector2d(0,0),
-                new Vector2d(0,0),
-                new Vector2d(0,0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
 
                 // other tests
-                new Vector2d(2,2),
-                new Vector2d(1,1),
-                new Vector2d(4,3),
-                new Vector2d(1,1)
+                new Vector2d(2, 2),
+                new Vector2d(1, 1),
+                new Vector2d(4, 3),
+                new Vector2d(1, 1)
         };
-        String[][] testInMove = new String[][] {
+        String[][] testInMove = new String[][]{
                 new String[]{"f"},
                 new String[]{"b"},
                 new String[]{"l"},
@@ -92,29 +87,29 @@ class AnimalTest {
                         "f", "f", "l", "f", "r", "b"}
         };
 
-        Vector2d[] testOutLoc = new Vector2d[] {
-                new Vector2d(2,3),
-                new Vector2d(2,1),
-                new Vector2d(2,2),
-                new Vector2d(2,2),
+        Vector2d[] testOutLoc = new Vector2d[]{
+                new Vector2d(2, 3),
+                new Vector2d(2, 1),
+                new Vector2d(2, 2),
+                new Vector2d(2, 2),
 
-                new Vector2d(4,4),
-                new Vector2d(4,4),
-                new Vector2d(4,4),
-                new Vector2d(4,4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
+                new Vector2d(4, 4),
 
-                new Vector2d(0,0),
-                new Vector2d(0,0),
-                new Vector2d(0,0),
-                new Vector2d(0,0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
+                new Vector2d(0, 0),
 
-                new Vector2d(2,2),
-                new Vector2d(0,2),
-                new Vector2d(1,1),
-                new Vector2d(2,2)
+                new Vector2d(2, 2),
+                new Vector2d(0, 2),
+                new Vector2d(1, 1),
+                new Vector2d(2, 2)
         };
 
-        MapDirection[] testOutOri = new MapDirection[] {
+        MapDirection[] testOutOri = new MapDirection[]{
                 MapDirection.NORTH,
                 MapDirection.NORTH,
                 MapDirection.WEST,
@@ -139,8 +134,9 @@ class AnimalTest {
         for (int i = 0; i < testCount; i++) {
             Animal testAnimal = new Animal(testInLoc[i]);
             List<MoveDirection> testDir = OptionsParser.parse(testInMove[i]);
+            RectangularMap testMap = new RectangularMap(5,5);
             for (MoveDirection d : testDir) {
-                testAnimal.move(d);
+                testAnimal.move(d, testMap);
             }
             assertEquals(testOutLoc[i], testAnimal.getLocation());
 //            assertTrue(testAnimal.isAt(testOutLoc[i]));

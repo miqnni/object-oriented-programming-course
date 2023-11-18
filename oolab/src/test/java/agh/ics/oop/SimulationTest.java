@@ -1,10 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
-import org.junit.jupiter.api.Assertions;
+import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -61,6 +57,14 @@ class SimulationTest {
                 "f", "r", "b", "f",
                 "r", "f", "b", "r",
         };
+
+        // Rectangular maps
+        RectangularMap testMap0 = new RectangularMap(5, 5);
+        RectangularMap testMap1 = new RectangularMap(5, 5);
+        RectangularMap testMap2 = new RectangularMap(5, 5);
+        RectangularMap testMap3 = new RectangularMap(5, 5);
+        RectangularMap testMap4 = new RectangularMap(5, 5);
+
 
         // Where the animals will be after the moves
         List<Vector2d> endPos0 = List.of(
@@ -127,11 +131,11 @@ class SimulationTest {
         );
 
         // Prepare and run the simulations
-        Simulation sim0 = new Simulation(startPos, OptionsParser.parse(moves0));
-        Simulation sim1 = new Simulation(startPos, OptionsParser.parse(moves1));
-        Simulation sim2 = new Simulation(startPos, OptionsParser.parse(moves2));
-        Simulation sim3 = new Simulation(startPos, OptionsParser.parse(moves3));
-        Simulation sim4 = new Simulation(startPos, OptionsParser.parse(moves4));
+        Simulation sim0 = new Simulation(startPos, OptionsParser.parse(moves0), testMap0);
+        Simulation sim1 = new Simulation(startPos, OptionsParser.parse(moves1), testMap1);
+        Simulation sim2 = new Simulation(startPos, OptionsParser.parse(moves2), testMap2);
+        Simulation sim3 = new Simulation(startPos, OptionsParser.parse(moves3), testMap3);
+        Simulation sim4 = new Simulation(startPos, OptionsParser.parse(moves4), testMap4);
         sim0.run();
         sim1.run();
         sim2.run();
