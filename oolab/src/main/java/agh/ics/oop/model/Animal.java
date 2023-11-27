@@ -1,22 +1,20 @@
 package agh.ics.oop.model;
 
-public class Animal {
+public class Animal implements WorldElement {
     private MapDirection orientation;
-    private Vector2d location;
+    private Vector2d position;
 
-    // Boundaries
-
-    public Animal(Vector2d location) {
+    public Animal(Vector2d position) {
         this.orientation = MapDirection.NORTH;
-        this.location = location;
+        this.position = position;
     }
 
     public Animal() {
         this(new Vector2d (2,2));
     }
 
+    @Override
     public String toString() {
-//        return location.toString() + " " + orientation.toString();
         return switch(orientation) {
             case NORTH -> "^";
             case EAST -> ">";
@@ -26,11 +24,11 @@ public class Animal {
     }
 
     public boolean isAt(Vector2d position) {
-        return position.equals(location);
+        return position.equals(this.position);
     }
 
-    public Vector2d getLocation() {
-        return location;
+    public Vector2d getPosition() {
+        return position;
     }
 
     public MapDirection getOrientation() {
@@ -48,9 +46,9 @@ public class Animal {
                     toAdd = toAdd.opposite();
                 }
 
-                Vector2d newLocation = location.add(toAdd);
+                Vector2d newLocation = position.add(toAdd);
                 if (mValid.canMoveTo(newLocation)) {
-                    location = newLocation;
+                    position = newLocation;
                 }
             }
         }

@@ -145,11 +145,11 @@ class SimulationTest {
         // Check if the animals have the correct *positions* after the moves
         for (int i = 0; i < ANIMAL_COUNT; i++) {
             // assertEquals(expected, actual);
-            assertEquals(endPos0.get(i), sim0.getAnimals().get(i).getLocation());
-            assertEquals(endPos1.get(i), sim1.getAnimals().get(i).getLocation());
-            assertEquals(endPos2.get(i), sim2.getAnimals().get(i).getLocation());
-            assertEquals(endPos3.get(i), sim3.getAnimals().get(i).getLocation());
-            assertEquals(endPos4.get(i), sim4.getAnimals().get(i).getLocation());
+            assertEquals(endPos0.get(i), sim0.getAnimals().get(i).getPosition());
+            assertEquals(endPos1.get(i), sim1.getAnimals().get(i).getPosition());
+            assertEquals(endPos2.get(i), sim2.getAnimals().get(i).getPosition());
+            assertEquals(endPos3.get(i), sim3.getAnimals().get(i).getPosition());
+            assertEquals(endPos4.get(i), sim4.getAnimals().get(i).getPosition());
         }
 
         // Check if the animals have the correct *orientations* after the moves

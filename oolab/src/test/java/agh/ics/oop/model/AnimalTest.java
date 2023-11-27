@@ -18,7 +18,7 @@ class AnimalTest {
         Animal a0 = new Animal();
         RectangularMap m0 = new RectangularMap(5, 5);
 
-        assertEquals(new Vector2d(2, 2), a0.getLocation());
+        assertEquals(new Vector2d(2, 2), a0.getPosition());
         assertTrue(a0.isAt(new Vector2d(2, 2)));
         assertEquals(MapDirection.NORTH, a0.getOrientation());
 
@@ -138,7 +138,7 @@ class AnimalTest {
             for (MoveDirection d : testDir) {
                 testAnimal.move(d, testMap);
             }
-            assertEquals(testOutLoc[i], testAnimal.getLocation());
+            assertEquals(testOutLoc[i], testAnimal.getPosition());
             assertEquals(testOutOri[i], testAnimal.getOrientation());
         }
 
