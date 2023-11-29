@@ -12,7 +12,8 @@ public class World {
 //        RectangularMap simMap = new RectangularMap(5, 5);
 //        Simulation simulation = new Simulation(positions, directions, simMap);
 //        simulation.run();
-        // LAB 5
+
+        // LAB 5 -- checking if getElements() works
         GrassField testGrassField = new GrassField(5);
         Animal a1 = new Animal();
         Animal a2 = new Animal(new Vector2d(40,5));
@@ -22,8 +23,12 @@ public class World {
         testGrassField.move(a2, MoveDirection.LEFT);
 
         System.out.println(testGrassField.getAnimals());
-        System.out.println(testGrassField.getGrassList());
+        System.out.println(testGrassField.getGrassPieces());
         System.out.println(testGrassField);
+        System.out.println(testGrassField.getElements());
+        for (WorldElement el: testGrassField.getElements()) {
+            System.out.println(el.getPosition() + " " + el);
+        }
     }
 
 //    public static void run(MoveDirection[] run_arr) {

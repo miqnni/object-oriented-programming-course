@@ -3,19 +3,17 @@ package agh.ics.oop.model;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 import static java.lang.Math.sqrt;
 
-public class GrassField implements WorldMap {
-
-    private final Map<Vector2d, Animal> animals = new HashMap<>();
-    private final Map<Vector2d, Grass> grassList = new HashMap<>();
+public class GrassField extends AbstractWorldMap {
+    private final Map<Vector2d, Grass> grassPieces = new HashMap<>();
 
 
     public GrassField(int n) {
-//        final int LOWER_LIMIT = 0;
         final int UPPER_LIMIT = (int) sqrt(n*10);
 
 
@@ -25,13 +23,6 @@ public class GrassField implements WorldMap {
             int randX = rand.nextInt(UPPER_LIMIT + 1);
             int randY = rand.nextInt(UPPER_LIMIT + 1);
             Vector2d toCheck = new Vector2d(randX, randY);
-            System.out.println("Random vector: " + toCheck);
-
-//            if (grassList.get(toCheck) == null) {
-//                Grass newGrass = new Grass(toCheck);
-//                grassList.put(toCheck, newGrass);
-//            }
-//            else i--;
 
             Grass newGrass = new Grass(toCheck);
             if (!placeGrass(newGrass)) i--;
@@ -49,19 +40,13 @@ public class GrassField implements WorldMap {
 
     @Override
     public boolean place(Animal animal) {
-        Vector2d animalPos = animal.getPosition();
-        if (canMoveTo(animalPos)) {
-            animals.put(animalPos, animal);
-            return true;
-        }
-        return false;
+        return super.place(animal);
     }
 
     public boolean placeGrass(Grass newGrass) {
         Vector2d grassPos = newGrass.getPosition();
-        if (grassList.get(grassPos) == null) {
-            grassList.put(grassPos, newGrass);
-            System.out.println("GRASS SUCCESSFULLY PLACED AT " + grassPos);
+        if (grassPieces.get(grassPos) == null) {
+            grassPieces.put(grassPos, newGrass);
             return true;
         }
         return false;
@@ -69,27 +54,19 @@ public class GrassField implements WorldMap {
 
     @Override
     public void move(Animal animal, MoveDirection direction) {
-        Vector2d currPos = animal.getPosition();
-        if (objectAt(currPos).equals(animal)){
-            animal.move(direction, this);
-            Vector2d nextPos = animal.getPosition();
-            if (!currPos.equals(nextPos)) {
-                animals.remove(currPos);
-                animals.put(nextPos, animal);
-            }
-        }
+        super.move(animal, direction);
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        return animals.get(position) != null || grassList.get(position) != null;
+        return super.isOccupied(position) || grassPieces.get(position) != null;
     }
 
     @Override
     public WorldElement objectAt(Vector2d position) {
         if (animals.get(position) != null )
-            return animals.get(position);
-        return grassList.get(position);
+            return super.objectAt(position);
+        return grassPieces.get(position);
     }
 
     private Vector2d calculateMapCorner() {
@@ -98,7 +75,7 @@ public class GrassField implements WorldMap {
             Vector2d currVector = entry.getKey();
             maxUpperRight = maxUpperRight.upperRight(currVector);
         }
-        for (Map.Entry<Vector2d, Grass> entry : grassList.entrySet()) {
+        for (Map.Entry<Vector2d, Grass> entry : grassPieces.entrySet()) {
             Vector2d currVector = entry.getKey();
             maxUpperRight = maxUpperRight.upperRight(currVector);
         }
@@ -114,17 +91,27 @@ public class GrassField implements WorldMap {
     @Override
     public String toString() {
         Vector2d mapCorner = calculateMapCorner();
-        int width = mapCorner.getX() + 1; // EDIT!!! -- moze wykorzystac upperRight dla wszystkich wektorow?
-        int height = mapCorner.getY() + 1; // EDIT!!!
+        int width = mapCorner.getX() + 1;
+        int height = mapCorner.getY() + 1;
         MapVisualizer toVisualize = new MapVisualizer(this);
         return toVisualize.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
 
     }
 
+    @Override
+    public List<WorldElement> getElements() {
+        List<WorldElement> allElements = super.getElements();
+        for (Map.Entry<Vector2d, Grass> entry : grassPieces.entrySet()) {
+            WorldElement currElement = entry.getValue();
+            allElements.add(currElement);
+        }
+        return allElements;
+    }
+
     // debug
 
-    public Map<Vector2d, Grass> getGrassList() {
-        return grassList;
+    public Map<Vector2d, Grass> getGrassPieces() {
+        return grassPieces;
     }
 
     public Map<Vector2d, Animal> getAnimals() {
