@@ -1,6 +1,6 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +13,7 @@ public class GrassField extends AbstractWorldMap {
     private final Map<Vector2d, Grass> grassPieces = new HashMap<>();
 
 
-    public GrassField(int n) {
+    public GrassField(int n) throws PositionAlreadyOccupiedException {
         final int UPPER_LIMIT = (int) sqrt(n*10);
 
 
@@ -25,7 +25,8 @@ public class GrassField extends AbstractWorldMap {
             Vector2d toCheck = new Vector2d(randX, randY);
 
             Grass newGrass = new Grass(toCheck);
-            if (!placeGrass(newGrass)) i--;
+            if (grassPieces.get(toCheck) != null) i--;
+            else this.placeGrass(newGrass);
 
         }
 
@@ -39,17 +40,16 @@ public class GrassField extends AbstractWorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
-        return super.place(animal);
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
+        super.place(animal);
     }
 
-    public boolean placeGrass(Grass newGrass) {
+    public void placeGrass(Grass newGrass) throws PositionAlreadyOccupiedException {
         Vector2d grassPos = newGrass.getPosition();
         if (grassPieces.get(grassPos) == null) {
             grassPieces.put(grassPos, newGrass);
-            return true;
         }
-        return false;
+        else throw new PositionAlreadyOccupiedException(grassPos);
     }
 
     @Override
@@ -69,32 +69,9 @@ public class GrassField extends AbstractWorldMap {
         return grassPieces.get(position);
     }
 
-    private Vector2d calculateMapCorner() {
-        Vector2d maxUpperRight = new Vector2d(0,0);
-        for (Map.Entry<Vector2d, Animal> entry : animals.entrySet()) {
-            Vector2d currVector = entry.getKey();
-            maxUpperRight = maxUpperRight.upperRight(currVector);
-        }
-        for (Map.Entry<Vector2d, Grass> entry : grassPieces.entrySet()) {
-            Vector2d currVector = entry.getKey();
-            maxUpperRight = maxUpperRight.upperRight(currVector);
-        }
-        return maxUpperRight;
-    }
-
-    /*
-    * rysuje fragment mapy, na którym znajdują się wszystkie elementy (zwierzęta oraz trawa)
-    * W celu jej implementacji wykorzystaj klasę MapVisualizer z poprzedniego laboratorium
-    * dynamicznie oblicz skrajne punkty, które powinny zostać wyświetlone
-    * Obecność zwierząt ma priorytet nad obecnością kępki trawy na danym polu (ZALATWIONE: objectAt())
-    * */
     @Override
     public String toString() {
-        Vector2d mapCorner = calculateMapCorner();
-        int width = mapCorner.getX() + 1;
-        int height = mapCorner.getY() + 1;
-        MapVisualizer toVisualize = new MapVisualizer(this);
-        return toVisualize.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
+        return super.toString();
 
     }
 
@@ -106,6 +83,20 @@ public class GrassField extends AbstractWorldMap {
             allElements.add(currElement);
         }
         return allElements;
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
+        Vector2d maxUpperRight = new Vector2d(0,0);
+        for (Map.Entry<Vector2d, Animal> entry : animals.entrySet()) {
+            Vector2d currVector = entry.getKey();
+            maxUpperRight = maxUpperRight.upperRight(currVector);
+        }
+        for (Map.Entry<Vector2d, Grass> entry : grassPieces.entrySet()) {
+            Vector2d currVector = entry.getKey();
+            maxUpperRight = maxUpperRight.upperRight(currVector);
+        }
+        return new Boundary(new Vector2d(0, 0), maxUpperRight);
     }
 
     // debug

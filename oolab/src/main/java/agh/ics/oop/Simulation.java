@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
 import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
@@ -30,7 +31,13 @@ public class Simulation {
     public void run() {
         // place the animals
         for (Animal animal : animals) {
-            animalMap.place(animal);
+            try {
+
+                animalMap.place(animal);
+            }
+            catch(PositionAlreadyOccupiedException e){
+                e.printStackTrace();
+            }
         }
 
         // move the animals
@@ -42,7 +49,7 @@ public class Simulation {
             animalMap.move(currentAnimal, currentDir);
 
 //            System.out.println("Zwierzę " + animalNum + " : " + currentAnimal.getLocation().toString());
-            System.out.println(animalMap);
+//            System.out.println(animalMap);
 
         }
     }

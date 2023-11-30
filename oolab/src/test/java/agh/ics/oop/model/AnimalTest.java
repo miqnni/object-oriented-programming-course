@@ -78,11 +78,15 @@ class AnimalTest {
                 new String[]{"l", "f"},
                 new String[]{"l", "l", "f"},
 
-                new String[]{},
-                new String[]{"p", "f", "l", "R", "", "alabama", "f", "s"},
+//                new String[]{},
+//                new String[]{"p", "f", "l", "R", "", "alabama", "f", "s"},
+                new String[]{"f", "b"},
+                new String[]{"f", "l", "f"},
+
                 new String[]{"r", "f", "r", "f", "f", "l", "b",
                         "l", "f", "b", "b", "b", "b", "r", "r",
                         "r", "f", "f", "l", "f", "b"},
+
                 new String[]{"r", "f", "f", "l", "f", "f", "l",
                         "f", "f", "l", "f", "r", "b"}
         };

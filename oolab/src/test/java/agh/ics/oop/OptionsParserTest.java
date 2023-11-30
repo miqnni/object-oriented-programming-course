@@ -18,20 +18,26 @@ class OptionsParserTest {
                 MoveDirection.FORWARD, MoveDirection.BACKWARD};
         List<MoveDirection> out1List = Arrays.asList(out1);
 
-        String[] in2 = new String[]{"f", "f", "s", "l", "b", "alabama", "r"};
+        String[] in2 = new String[]{"f", "f", "l", "b", "r"};
         MoveDirection[] out2 = new MoveDirection[] {MoveDirection.FORWARD, MoveDirection.FORWARD,
                 MoveDirection.LEFT, MoveDirection.BACKWARD, MoveDirection.RIGHT};
         List<MoveDirection> out2List = Arrays.asList(out2);
 
-        String[] in3 = new String[]{"d", "f", "b", "s", "l", "l", "alabama", "r", "k", "f", "u"};
+        String[] in3 = new String[]{"f", "backward", "l", "left", "right", "forward"};
         MoveDirection[] out3 = new MoveDirection[] {MoveDirection.FORWARD, MoveDirection.BACKWARD,
                 MoveDirection.LEFT, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.FORWARD};
         List<MoveDirection> out3List = Arrays.asList(out3);
 
+        String[] in2e = new String[]{"f", "f", "s", "l", "b", "alabama", "r"};
+        String[] in3e = new String[]{"d", "f", "b", "s", "l", "l", "alabama", "r", "k", "f", "u"};
+        String[] in4e = new String[]{"f", "f", "l", "b", "r", ""};
 
         assertEquals(out1List, OptionsParser.parse(in1));
         assertEquals(out2List, OptionsParser.parse(in2));
         assertEquals(out3List, OptionsParser.parse(in3));
         assertNotEquals(out3List, OptionsParser.parse(in1));
+        assertThrows(IllegalArgumentException.class, () -> {OptionsParser.parse(in2e);});
+        assertThrows(IllegalArgumentException.class, () -> {OptionsParser.parse(in3e);});
+        assertThrows(IllegalArgumentException.class, () -> {OptionsParser.parse(in4e);});
     }
 }

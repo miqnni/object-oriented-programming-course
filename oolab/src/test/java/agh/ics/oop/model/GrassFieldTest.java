@@ -1,5 +1,6 @@
 package agh.ics.oop.model;
 
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,7 +10,7 @@ class GrassFieldTest {
 
 
     @Test
-    void canMoveTo() {
+    void canMoveTo() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         Animal a2 = new Animal(new Vector2d(40,3));
@@ -25,29 +26,35 @@ class GrassFieldTest {
     }
 
     @Test
-    void place() {
+    void place() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         Animal a2 = new Animal(new Vector2d(2,2));
         Animal a3 = new Animal(new Vector2d(3,2));
-        assertTrue(testGrassField.place(a1));
-        assertFalse(testGrassField.place(a2));
-        assertTrue(testGrassField.place(a3));
+        testGrassField.place(a1);
+        testGrassField.place(a3);
+        assertEquals(a1, testGrassField.objectAt(new Vector2d(2,2)));
+        assertNotEquals(a2, testGrassField.objectAt(new Vector2d(2,2)));
+        assertEquals(a3, testGrassField.objectAt(new Vector2d(3,2)));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testGrassField.place(a2));
     }
 
     @Test
-    void placeGrass() {
+    void placeGrass() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Grass g1 = new Grass(new Vector2d(2,2));
         Grass g2 = new Grass(new Vector2d(2,2));
         Grass g3 = new Grass(new Vector2d(3,2));
-        assertTrue(testGrassField.placeGrass(g1));
-        assertFalse(testGrassField.placeGrass(g2));
-        assertTrue(testGrassField.placeGrass(g3));
+        testGrassField.placeGrass(g1);
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testGrassField.placeGrass(g2));
+        testGrassField.placeGrass(g3);
+        assertEquals(g1, testGrassField.objectAt(new Vector2d(2, 2)));
+        assertEquals(g3, testGrassField.objectAt(new Vector2d(3, 2)));
+
     }
 
     @Test
-    void move() {
+    void move() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         testGrassField.place(a1);
@@ -63,7 +70,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void isOccupied() {
+    void isOccupied() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         testGrassField.place(a1);
@@ -78,7 +85,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void objectAt() {
+    void objectAt() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         testGrassField.place(a1);
@@ -97,7 +104,7 @@ class GrassFieldTest {
     }
 
     @Test
-    void testToString() {
+    void testToString() throws PositionAlreadyOccupiedException {
         GrassField testGrassField = new GrassField(0);
         Animal a1 = new Animal();
         testGrassField.place(a1);

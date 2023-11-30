@@ -1,19 +1,33 @@
 package agh.ics.oop.model;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
+import agh.ics.oop.model.util.MapVisualizer;
+
+import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected Map<Vector2d, Animal> animals = new HashMap<>();
+    private final List<MapChangeListener> observers = new LinkedList<>();
 
-    public boolean place(Animal animal) {
+    public void addObserver(MapChangeListener newObserver) {
+        observers.add(newObserver);
+    }
+
+    public void removeObserver(MapChangeListener toRemove) {
+        observers.remove(toRemove);
+    }
+
+    public void mapChanged(String s) {
+        for (MapChangeListener observer : observers)
+            observer.mapChanged(this, s);
+    }
+
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
         Vector2d animalPos = animal.getPosition();
         if (canMoveTo(animalPos)) {
             animals.put(animalPos, animal);
-            return true;
+            mapChanged("Animal " + animal + " placed at " + animalPos + ".");
         }
-        return false;
+        else throw new PositionAlreadyOccupiedException(animalPos);
     }
 
     public void move(Animal animal, MoveDirection direction) {
@@ -24,6 +38,13 @@ public abstract class AbstractWorldMap implements WorldMap {
             if (!currPos.equals(nextPos)) {
                 animals.remove(currPos);
                 animals.put(nextPos, animal);
+                mapChanged("Animal " + animal + " moved " + direction +
+                        " from " + currPos +
+                        " to " + nextPos + ".");
+
+            }
+            else {
+                mapChanged("Animal " + animal + " turned " + direction + " at " + currPos + ".");
             }
         }
     }
@@ -44,5 +65,14 @@ public abstract class AbstractWorldMap implements WorldMap {
             allElements.add(currElement);
         }
         return allElements;
+    }
+
+    public abstract Boundary getCurrentBounds();
+
+    @Override
+    public String toString() {
+        MapVisualizer toVisualize = new MapVisualizer(this);
+        Boundary boundary = getCurrentBounds();
+        return toVisualize.draw(boundary.lowerLeft(), boundary.upperRight());
     }
 }

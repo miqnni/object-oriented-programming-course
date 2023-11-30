@@ -2,6 +2,7 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.OptionsParser;
 import agh.ics.oop.Simulation;
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RectangularMapTest {
 
     @Test
-    void canMoveTo() {
+    void canMoveTo() throws PositionAlreadyOccupiedException {
         RectangularMap testMap = new RectangularMap(5, 6);
         Animal blockAnimal = new Animal(new Vector2d(4, 3));
         testMap.place(blockAnimal);
@@ -34,7 +35,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void place() {
+    void place() throws PositionAlreadyOccupiedException {
         RectangularMap testMap = new RectangularMap(5, 5);
         Animal blockAnimal = new Animal(new Vector2d(4, 3));
 
@@ -46,19 +47,25 @@ class RectangularMapTest {
 
         testMap.place(blockAnimal);
 
-        assertTrue(testMap.place(myAnimal0));
-        assertTrue(testMap.place(myAnimal1));
-        assertFalse(testMap.place(myAnimal2));
-        assertFalse(testMap.place(myAnimal3));
-        assertFalse(testMap.place(myAnimal4));
+        testMap.place(myAnimal0);
+        testMap.place(myAnimal1);
+
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testMap.place(myAnimal2));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testMap.place(myAnimal3));
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testMap.place(myAnimal4));
 
         testMap.move(blockAnimal, MoveDirection.BACKWARD);
-        assertFalse(testMap.place(blockAnimal));
+
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testMap.place(blockAnimal));
+
+        assertEquals(myAnimal0, testMap.objectAt(new Vector2d(1, 2)));
+        assertEquals(myAnimal1, testMap.objectAt(new Vector2d(4, 4)));
+        assertEquals(blockAnimal, testMap.objectAt(new Vector2d(4, 2)));
 
     }
 
     @Test
-    void move() {
+    void move() throws PositionAlreadyOccupiedException {
         RectangularMap testMap = new RectangularMap(4, 3);
 
         Animal myAnimal0 = new Animal(new Vector2d(3, 2));
@@ -88,7 +95,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void isOccupied() {
+    void isOccupied() throws PositionAlreadyOccupiedException {
         RectangularMap testMap = new RectangularMap(5, 5);
         Animal blockAnimal = new Animal(new Vector2d(3, 1));
 
@@ -112,7 +119,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void objectAt() {
+    void objectAt() throws PositionAlreadyOccupiedException {
         RectangularMap testMap = new RectangularMap(5, 5);
         Animal myAnimal0 = new Animal(new Vector2d(3, 1));
         Animal myAnimal1 = new Animal(new Vector2d(0, 2));
@@ -122,7 +129,9 @@ class RectangularMapTest {
         testMap.place(myAnimal0);
         testMap.place(myAnimal1);
         testMap.place(myAnimal2);
-        testMap.place(myAnimal3);
+
+        assertThrows(PositionAlreadyOccupiedException.class, () -> testMap.place(myAnimal3));
+
 
         assertEquals(myAnimal0, testMap.objectAt(new Vector2d(3, 1)));
         assertEquals(myAnimal1, testMap.objectAt(new Vector2d(0, 2)));
@@ -132,7 +141,7 @@ class RectangularMapTest {
     }
 
     @Test
-    void testToString() {
+    void testToString() throws PositionAlreadyOccupiedException {
         // 0
         RectangularMap testMap0 = new RectangularMap(4, 4);
         Animal myAnimal00 = new Animal(new Vector2d(2,2));

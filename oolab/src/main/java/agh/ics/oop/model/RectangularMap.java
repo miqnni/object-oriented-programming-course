@@ -1,6 +1,7 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
+
 import java.util.List;
 
 public class RectangularMap extends AbstractWorldMap {
@@ -16,16 +17,12 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.getX() >= 0
-                && position.getX() <= width - 1
-                && position.getY() >= 0
-                && position.getY() <= height - 1
-                && !isOccupied(position);
+        return position.getX() >= 0 && position.getX() <= width - 1 && position.getY() >= 0 && position.getY() <= height - 1 && !isOccupied(position);
     }
 
     @Override
-    public boolean place(Animal animal) {
-        return super.place(animal);
+    public void place(Animal animal) throws PositionAlreadyOccupiedException {
+        super.place(animal);
     }
 
     @Override
@@ -45,13 +42,16 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public String toString() {
-        MapVisualizer toVisualize = new MapVisualizer(this);
-        return toVisualize.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
-
+        return super.toString();
     }
 
     @Override
     public List<WorldElement> getElements() {
         return super.getElements();
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
     }
 }

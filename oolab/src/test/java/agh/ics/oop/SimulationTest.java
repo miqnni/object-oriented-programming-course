@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
 import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -38,11 +39,17 @@ class SimulationTest {
                 "f", "f", "f", "r",
                 "l", "r", "f"
         };
+//        String[] movesErr = {
+//                "-", "f", "r", "f", "l",
+//                "r", "f", "r", "f", "-",
+//                "l", "r", "f", "r", "---", "-", "--",
+//                "f", "l", "r", "f", "-"
+//        };
         String[] moves3 = {
-                "-", "f", "r", "f", "l",
-                     "r", "f", "r", "f", "-",
-                     "l", "r", "f", "r", "---", "-", "--",
-                     "f", "l", "r", "f", "-"
+                "f", "r", "f", "l",
+                "r", "f", "r", "f",
+                "l", "r", "f", "r",
+                "f", "l", "r", "f",
         };
         String[] moves4 = {
                 "b", "f", "b", "f",

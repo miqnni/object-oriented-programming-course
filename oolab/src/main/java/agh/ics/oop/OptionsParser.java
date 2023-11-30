@@ -13,10 +13,11 @@ public class OptionsParser {
 
         for (String s: sarr) {
             switch (s) {
-                case "f" -> mdList.add(MoveDirection.FORWARD);
-                case "r" -> mdList.add(MoveDirection.RIGHT);
-                case "b" -> mdList.add(MoveDirection.BACKWARD);
-                case "l" -> mdList.add(MoveDirection.LEFT);
+                case "f", "forward" -> mdList.add(MoveDirection.FORWARD);
+                case "r", "right" -> mdList.add(MoveDirection.RIGHT);
+                case "b", "backward" -> mdList.add(MoveDirection.BACKWARD);
+                case "l", "left" -> mdList.add(MoveDirection.LEFT);
+                default -> throw new IllegalArgumentException(s + " is not legal move specification");
             }
         }
         return mdList;
