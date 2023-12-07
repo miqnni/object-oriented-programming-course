@@ -6,6 +6,13 @@ import java.util.*;
 
 public abstract class AbstractWorldMap implements WorldMap {
     protected Map<Vector2d, Animal> animals = new HashMap<>();
+
+    protected UUID mapId;
+
+    public AbstractWorldMap() {
+        this.mapId = UUID.randomUUID();
+    }
+
     private final List<MapChangeListener> observers = new LinkedList<>();
 
     public void addObserver(MapChangeListener newObserver) {
@@ -74,5 +81,9 @@ public abstract class AbstractWorldMap implements WorldMap {
         MapVisualizer toVisualize = new MapVisualizer(this);
         Boundary boundary = getCurrentBounds();
         return toVisualize.draw(boundary.lowerLeft(), boundary.upperRight());
+    }
+
+    public UUID getId() {
+        return mapId;
     }
 }

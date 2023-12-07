@@ -1,12 +1,7 @@
 package agh.ics.oop.model;
 
 import agh.ics.oop.exceptions.PositionAlreadyOccupiedException;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-
+import java.util.*;
 import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap {
@@ -14,9 +9,9 @@ public class GrassField extends AbstractWorldMap {
 
 
     public GrassField(int n) throws PositionAlreadyOccupiedException {
+        super();
+
         final int UPPER_LIMIT = (int) sqrt(n*10);
-
-
 
         for (int i = 0; i < n; i++) {
             Random rand = new Random();
