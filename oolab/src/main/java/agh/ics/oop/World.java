@@ -68,8 +68,31 @@ public class World {
         List<Simulation> testSimList = new ArrayList<>();
         testSimList.add(sim0);
         testSimList.add(sim1);
+
         SimulationEngine e1 = new SimulationEngine(testSimList);
-        e1.runSync();
+//        e1.runSync();
+//        e1.runAsync();  // 2.2 Tak, kolejność różni się. Kilka operacji zostaje wykonanych na jednej mapie, potem kilka na drugiej, potem znowu kilka na pierwszej itd.
+//        e1.runAsyncInThreadPool();
+
+        final int VERY_BIG_SIM_COUNT = 1000;
+        final int GRASS_COUNT = 20;
+        List<Simulation> veryBigSimList = new ArrayList<>();
+        for (int i = 0; i < VERY_BIG_SIM_COUNT; i++) {
+            GrassField currField = new GrassField(GRASS_COUNT);
+            Simulation currSim = new Simulation(
+                    startPos,
+                    OptionsParser.parse(rMoves0),
+                    currField
+            );
+            currField.addObserver(testConsole);
+            veryBigSimList.add(currSim);
+        }
+        SimulationEngine veryBigEngine = new SimulationEngine(veryBigSimList);
+//        veryBigEngine.runAsync();
+        veryBigEngine.runAsyncInThreadPool();
+
+
+        System.out.println("System zakończył działanie");  // 2.3 Wypisuje się na początku programu, zanim zostanie wypisany jakikolwiek stan mapy powstały w wyniku działania symulacji.
 
     }
 
